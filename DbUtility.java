@@ -5,6 +5,7 @@ import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Date;
 
 public class DbUtility {
 
@@ -36,7 +37,29 @@ public class DbUtility {
 		}
 		return updated;
 	}
-
+	public static String htmlRS(ResultSet rs) {
+		
+		String str="<table>";
+		try {
+			ResultSetMetaData rsmd=rs.getMetaData();
+			while(rs.next()) {
+				str=str+ "<tr>: ";
+				for(int i=1;i<=rsmd.getColumnCount();i++) {
+					str=str+("<td>"+rs.getString(i)+ " </td> ");
+				}
+				str=str+"</tr>";
+			}
+			return str+"</table>";
+		}
+		catch(SQLException e) {
+			e.printStackTrace();
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
+		return "No records to show";
+	}
+	
 	public static void printEntireRS(ResultSet rs){
 		String strB;
 		ResultSetMetaData rsmd;

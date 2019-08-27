@@ -46,30 +46,7 @@ public class BookUpdate extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		String type=(String) request.getParameter("type");
-		String title=(String) request.getParameter("title");
-		String newT=(String ) request.getParameter("newtitle");
-		String auth=(String) request.getParameter("author");
-		String pub=(String) request.getParameter("pub");
-		String year=request.getParameter("year");
-		String price=request.getParameter("price");
-		
-		if(type.equals("insert")) {
-			BookSQL.insertNewBook(con, newT,auth,pub,Integer.parseInt(year),Double.parseDouble(price));
-		}
-		else if (type.equals("update")) {
-			if(!title.equals("")&& !newT.equals("")) {
-				BookSQL.updateBook(con, title,"title",newT);
-				BookSQL.updateBook(con, newT, "authors", auth);
-				BookSQL.updateBook(con, newT, "publisher", pub);
-				BookSQL.updateBook(con, newT, "publication_year", year);
-				BookSQL.updateBook(con, newT, "price", price);
-			}
-		}
-		else if (type.equals("delete")) {
-			BookSQL.deleteBook(con,title);
-		}
-		response.getWriter().append("Served at: ").append(request.getContextPath());
+	
 	}
 
 	/**
@@ -77,7 +54,42 @@ public class BookUpdate extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		doGet(request, response);
+		String type=(String) request.getParameter("type");
+		String title=(String) request.getParameter("title");
+		String newT=(String ) request.getParameter("newtitle");
+		String auth=(String) request.getParameter("author");
+		String pub=(String) request.getParameter("pub");
+		String year=request.getParameter("year");
+		String price=request.getParameter("price");
+		if(type.equals("insert")) {
+			if( newT.equals("") || auth.equals("") || pub.equals("") || year.equals("") || price.equals(""))
+				response.getWriter().append("<h1> Insertion failed due to missing field </h1>");	
+			else {
+				BookSQL.insertNewBook(con, newT,auth,pub,Integer.parseInt(year),Double.parseDouble(price));
+			}
+		}
+		else if (type.equals("update")) {
+			if(!title.equals("")&& !newT.equals("")) {//&& !auth.equals("") && !pub.equals("") && !year.equals("") && !price.equals("") ) {
+				//inefficient but much easier logic
+				BookSQL.updateBook(con, title,"title",newT);
+				BookSQL.updateBook(con, newT, "authors", auth);
+				BookSQL.updateBook(con, newT, "publisher", pub);
+				BookSQL.updateBook(con, newT, "publication_year", year);
+				BookSQL.updateBook(con, newT, "price", price);
+			}
+			else {
+				response.getWriter().append("<h1> Can't update, no title to find </h1>");
+			}
+		}
+		else if (type.equals("delete")) {
+			if(!title.equals("")) {
+				BookSQL.deleteBook(con,title);
+			}
+			else {
+				response.getWriter().append("<h1> Can't delete, no title to find </h1>");
+			}
+		}
+		response.getWriter().append("\nServed at: ").append(request.getContextPath());
 	}
 
 }
