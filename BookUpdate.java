@@ -46,7 +46,28 @@ public class BookUpdate extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-	
+		response.getWriter().append("<html>\r\n" + 
+				"<head>abc</head>\r\n" + 
+				"<body>\r\n" + 
+				"<form action=\"BookUpdate\" method=\"get\" >\r\n" + 
+				"Type of update <select name=\"type\">\r\n" + 
+				"<option value=\"insert\">Insert book</option>\r\n" + 
+				"<option value=\"update\">Update book</option>\r\n" + 
+				"<option value=\"delete\">Delete book</option>\r\n" + 
+				"</select>\r\n" + 
+				"Book Title to alter: <input type=\"text\" name=\"title\">\r\n" + 
+				"Book new title:<input type=\"text\" name=\"newtitle\">\r\n" + 
+				"Book new authors: <input type=\"text\" name=\"author\">\r\n" + 
+				"Book new publisher: <input type=\"text\" name=\"pub\">\r\n" + 
+				"Book new publication year: <input type=\"number\" name=\"year\">\r\n" + 
+				"Book new price: <input type=\"number\" name=\"price\">\r\n" + 
+				"<input type=\"submit\" value=\"update book fields\">\r\n" + 
+				"</form>\r\n" + 
+				"\r\n" + 
+				"\r\n" + 
+				"</body>\r\n" + 
+				"</html>");
+		this.doPost(request, response);
 	}
 
 	/**
@@ -62,6 +83,7 @@ public class BookUpdate extends HttpServlet {
 		String year=request.getParameter("year");
 		String price=request.getParameter("price");
 		if(type.equals("insert")) {
+			System.out.println("insert" +newT+auth+pub);
 			if( newT.equals("") || auth.equals("") || pub.equals("") || year.equals("") || price.equals(""))
 				response.getWriter().append("<h1> Insertion failed due to missing field </h1>");	
 			else {

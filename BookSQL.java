@@ -30,6 +30,7 @@ public class BookSQL {
 			//System.out.print("What is title of book you would like to change?");
 			stmt.setString(2, title);
 			stmt.setString(1, newV);
+			System.out.println(stmt);
 			int ret=stmt.executeUpdate();
 			return ret;
 		} catch (SQLException e) {
